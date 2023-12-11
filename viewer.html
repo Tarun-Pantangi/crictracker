@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Score Viewer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: rgb(220, 203, 252);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: #333;
+    }
+
+    header {
+      background-color: #1a1a1a;
+      color: #fff;
+      padding: 10px;
+    }
+
+    #liveScore {
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+    }
+
+    #runsWickets {
+      font-size: 50px;
+      font-weight: bold;
+      margin: 10px;
+    }
+
+    #overs {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Live Score Viewer</h1>
+  </header>
+  <div id="liveScore">
+    <div id="runsWickets">Score : 0 - 0</div>
+    <div id="overs">Overs: 0.0</div>
+  </div>
+  <script>
+    // You can modify this part to fetch live scores from a server or another source.
+    let liveScores = {
+      runs: 0,
+      wickets: 0,
+      overs: 0
+    };
+
+    function updateDisplay() {
+      const oversDisplay = liveScores.overs.toString();
+      const oversParts = oversDisplay.split('.');
+      const oversFormat = `${oversParts[0]}.${oversParts[1] || '0'}`;
+      const runsWicketsText = `${liveScores.runs} - ${liveScores.wickets}`;
+
+      document.getElementById('runsWickets').innerText = runsWicketsText;
+      document.getElementById('overs').innerText = 'Overs: ' + oversFormat;
+    }
+
+    // Update the display initially
+    updateDisplay();
+
+    // You can set up a timer to periodically update the live scores
+    // For simplicity, I'm using setInterval here, but in a real-world scenario, you might fetch live scores from an API.
+    
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scoreboard11</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: rgb(220, 203, 252);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: #333;
+    }
+    header {
+      background-color: #1a1a1a;
+      color: #fff;
+      padding: 10px;
+    }
+    #scoreboard {
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      margin: 15px 5px 15px auto;
+      cursor: pointer;
+      background-color: #1a1a1a;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      transition: background-color 0.3s;
+      align-items: center;
+      justify-content: center;
+    }
+    button:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+    button:hover {
+      background-color: #333;
+    }
+    #runs, #wickets, #balls, #overs {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Scoreboard11</h1>
+  </header>
+  <div id="scoreboard">
+    <div id="runs">Runs: 0</div>
+    <div id="wickets">Wickets: 0</div>
+    <div id="overs">Overs: 0.0</div>
+    <button id="addRunButton" onclick="addRun(1)">1</button>
+    <button id="addTwoRunsButton" onclick="addRun(2)">2</button>
+    <button id="addThreeRunsButton" onclick="addRun(3)">3</button>
+    <button id="addFourButton" onclick="addRun(4)">4</button>
+    <button id="addSixButton" onclick="addRun(6)">6</button>
+    <button id="noRunButton" onclick="addOutcome('No Run')">0</button>
+    <button id="wicketButton" onclick="addWicket()">Wicket</button>
+    <button id="wideButton" onclick="addOutcome('Wide')">Wide</button>
+    <button id="noBallButton" onclick="addOutcome('No Ball')">No Ball</button>
+    <button id="logoutButton" onclick="logout()">Logout</button>
+
+  </div>
+  <script>
+    let runs = 0;
+    let wickets = 0;
+    let balls = 0;
+    let x=0;
+    let overs = 0;
+    function addRun(score) {
+      if (wickets < 10) {
+        runs += score;
+        addBall();
+        x++;
+      }
+      updateDisplay();
+    }
+    function addOutcome(outcome) {
+      if (wickets < 10) {
+        switch (outcome) {
+          case 'No Run':
+            addBall();
+            x++;
+            break;
+          case 'Wicket':
+            wickets++;
+            addBall();
+            x++;
+            break;
+          case 'Wide':
+          case 'No Ball':
+            const extraRun = parseInt(prompt(`Enter runs for ${outcome}:`), 10) || 0;
+            runs += extraRun + 1; 
+            updateDisplay();
+            break;
+        }
+      }
+      updateDisplay();
+    }
+    function addWicket() {
+      if (wickets < 10) {
+        wickets++;
+        addBall();
+        x++;
+      } else if (wickets==10){
+        alert("All 10 wickets have fallen!");
+      }
+      updateDisplay();
+    }
+    function addBall() {
+      if (balls !== 5) {
+        balls++;
+        x++;
+      } else {
+        x++;
+        balls = 0;
+        overs += 1;
+      }
+      if (wickets === 10) {
+        disableAllButtons();
+      }
+      document.getElementById('overs').innerText = 'Overs: ' + overs.toFixed(1);
+    }
+    function updateDisplay() {
+  const oversDisplay = overs + "." + balls;
+  const oversParts = oversDisplay.toString().split('.');
+  const oversFormat = `${oversParts[0]}.${oversParts[1] || '0'}`;
+  document.getElementById('runs').innerText = 'Runs: ' + runs;
+  document.getElementById('wickets').innerText = 'Wickets: ' + wickets;
+  document.getElementById('overs').innerText = 'Overs: ' + oversFormat;
+}
+function logout() {
+      window.location.href = 'login.html';
+    }
+    function disableAllButtons() {
+  const buttons = document.querySelectorAll('button:not(#logoutButton)');
+  buttons.forEach(button => {
+    button.disabled = true;
+  });
+}
+
+  </script>
+</body>
+</html>
